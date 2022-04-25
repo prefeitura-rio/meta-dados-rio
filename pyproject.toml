@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "python-project-template"
+name = "meta-dados-rio"
 version = "0.1.0"
 description = "My own template for Python projects."
 authors = ["Gabriel Gazola Milan <gabriel.gazola@poli.ufrj.br>"]
 license = "GPL-3.0-only"
 readme = "README.md"
-homepage = "https://github.com/gabriel-milan/python-project-template"
-repository = "https://github.com/gabriel-milan/python-project-template"
+homepage = "https://github.com/prefeitura-rio/meta-dados-rio"
+repository = "https://github.com/prefeitura-rio/meta-dados-rio"
 keywords = ["python", "template"]
 
 [tool.poetry.dependencies]
