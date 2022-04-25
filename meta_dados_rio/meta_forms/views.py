@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.http import HttpResponseRedirect
 from rest_framework import viewsets
 from rest_framework import permissions
 
@@ -16,6 +17,10 @@ from meta_dados_rio.meta_forms.serializers import (
     TableSerializer,
     TagSerializer,
 )
+
+
+def home_view(request):
+    return HttpResponseRedirect("/api/")
 
 
 class TagViewSet(viewsets.ModelViewSet):
