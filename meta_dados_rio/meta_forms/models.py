@@ -92,8 +92,15 @@ class Table(models.Model):
 
 
 class Column(models.Model):
+    original_name = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
+    type = models.CharField(max_length=100)
     description = models.TextField()
+    is_sensitive = models.BooleanField()
+    temporal_coverage = models.CharField(max_length=100, null=True, blank=True)
+    measurement_unit = models.CharField(max_length=100, null=True, blank=True)
+    contains_dict = models.BooleanField(null=True, blank=True)
+    comments = models.TextField(null=True, blank=True)
     table = models.ForeignKey(Table, on_delete=models.CASCADE, related_name="columns")
 
     def __str__(self):
