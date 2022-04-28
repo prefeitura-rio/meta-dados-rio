@@ -93,7 +93,7 @@ class Table(models.Model):
 
 class Column(models.Model):
     original_name = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True, null=True)
     type = models.CharField(max_length=100)
     description = models.TextField()
     is_sensitive = models.BooleanField()

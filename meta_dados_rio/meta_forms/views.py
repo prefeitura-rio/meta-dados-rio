@@ -86,6 +86,7 @@ class ColumnViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Column.objects.all().order_by("id")
+        queryset = queryset.filter(name__isnull=False).filter(name__iexact="")
         project_name = self.request.query_params.get("project", None)
         if project_name is not None:
             queryset = queryset.filter(table__dataset__project__name=project_name)

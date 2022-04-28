@@ -10,7 +10,7 @@ from meta_dados_rio.meta_forms.models import (
 )
 
 
-class ColumnInlineAdmin(admin.TabularInline):
+class ColumnInlineAdmin(admin.StackedInline):
     model = Column
 
 
