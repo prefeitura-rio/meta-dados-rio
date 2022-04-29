@@ -46,6 +46,17 @@ class TableInlineAdmin(admin.StackedInline):
     filter_horizontal = ["tags"]
 
 
+class TableForm(forms.ModelForm):
+    AVAILABLE_UPDATE_FREQUENCIES = [
+        ("Nunca", "Nunca"),
+        ("Diário", "Diário"),
+        ("Semanal", "Semanal"),
+        ("Mensal", "Mensal"),
+        ("Anual", "Anual"),
+    ]
+    update_frequency = forms.ChoiceField(choices=AVAILABLE_UPDATE_FREQUENCIES)
+
+
 class TagAdmin(admin.ModelAdmin):
     pass
 
@@ -88,6 +99,7 @@ class TableAdmin(admin.ModelAdmin):
         "publisher_name",
         "publisher_email",
     ]
+    form = TableForm
 
 
 class ColumnAdmin(admin.ModelAdmin):
