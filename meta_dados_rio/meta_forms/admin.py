@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django import forms
 from django.contrib import admin
 
 from meta_dados_rio.meta_forms.models import (
@@ -12,6 +13,28 @@ from meta_dados_rio.meta_forms.models import (
 
 class ColumnInlineAdmin(admin.StackedInline):
     model = Column
+
+
+class ColumnForm(forms.ModelForm):
+    AVAILABLE_TYPES = [
+        ("STRING", "STRING"),
+        ("INT64", "INT64"),
+        ("DATE", "DATE"),
+        ("DATETIME", "DATETIME"),
+        ("FLOAT64", "FLOAT64"),
+        ("ARRAY", "ARRAY"),
+        ("BIGNUMERIC", "BIGNUMERIC"),
+        ("BOOL", "BOOL"),
+        ("BYTES", "BYTES"),
+        ("GEOGRAPHY", "GEOGRAPHY"),
+        ("INTERVAL", "INTERVAL"),
+        ("JSON", "JSON"),
+        ("NUMERIC", "NUMERIC"),
+        ("STRUCT", "STRUCT"),
+        ("TIME", "TIME"),
+        ("TIMESTAMP", "TIMESTAMP"),
+    ]
+    type = forms.ChoiceField(choices=AVAILABLE_TYPES)
 
 
 class DatasetInlineAdmin(admin.TabularInline):
@@ -68,7 +91,7 @@ class TableAdmin(admin.ModelAdmin):
 
 
 class ColumnAdmin(admin.ModelAdmin):
-    pass
+    form = ColumnForm
 
 
 admin.site.register(Column, ColumnAdmin)
