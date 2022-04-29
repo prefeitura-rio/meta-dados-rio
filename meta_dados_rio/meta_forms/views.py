@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from typing import List
+
+from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -28,7 +31,14 @@ class TagViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        queryset = Tag.objects.all().order_by("name")
+        queryset = Tag.objects.prefetch_related(
+            Prefetch(
+                "tables",
+                Table.objects.prefetch_related(
+                    Prefetch("columns", Column.objects.filter(name__isnull=False))
+                ),
+            )
+        ).order_by("name")
         name = self.request.query_params.get("name", None)
         if name is not None:
             queryset = queryset.filter(name__icontains=name)
@@ -40,7 +50,21 @@ class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        queryset = Project.objects.all().order_by("name")
+        queryset = Project.objects.prefetch_related(
+            Prefetch(
+                "datasets",
+                Dataset.objects.prefetch_related(
+                    Prefetch(
+                        "tables",
+                        Table.objects.prefetch_related(
+                            Prefetch(
+                                "columns", Column.objects.filter(name__isnull=False)
+                            )
+                        ),
+                    )
+                ),
+            )
+        ).order_by("name")
         name = self.request.query_params.get("name", None)
         if name is not None:
             queryset = queryset.filter(name__icontains=name)
@@ -52,7 +76,14 @@ class DatasetViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        queryset = Dataset.objects.all().order_by("name")
+        queryset = Dataset.objects.prefetch_related(
+            Prefetch(
+                "tables",
+                Table.objects.prefetch_related(
+                    Prefetch("columns", Column.objects.filter(name__isnull=False))
+                ),
+            )
+        ).order_by("name")
         project_name = self.request.query_params.get("project", None)
         if project_name is not None:
             queryset = queryset.filter(project__name=project_name)
@@ -67,7 +98,9 @@ class TableViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        queryset = Table.objects.all().order_by("name")
+        queryset = Table.objects.prefetch_related(
+            Prefetch("columns", Column.objects.filter(name__isnull=False))
+        ).order_by("name")
         project_name = self.request.query_params.get("project", None)
         if project_name is not None:
             queryset = queryset.filter(dataset__project__name=project_name)
