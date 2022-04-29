@@ -20,6 +20,10 @@ from django.urls import include, path
 from meta_dados_rio.meta_forms.views import home_view
 from meta_dados_rio.meta_forms.urls import router
 
+admin.site.site_header = "MetaDadosRio"
+admin.site.site_title = "MetaDadosRio"
+admin.site.index_title = "Bem-vindo ao portal de metadados do Escritório de Dados Rio"
+
 urlpatterns = [
     path("", home_view),
     path("admin/", admin.site.urls),
