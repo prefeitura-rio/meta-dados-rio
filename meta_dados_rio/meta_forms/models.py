@@ -96,7 +96,7 @@ class Column(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     type = models.CharField(max_length=100)
     description = models.TextField()
-    is_sensitive = models.BooleanField()
+    is_sensitive = models.BooleanField(default=True)
     temporal_coverage = models.CharField(max_length=100, null=True, blank=True)
     measurement_unit = models.CharField(max_length=100, null=True, blank=True)
     contains_dict = models.BooleanField(null=True, blank=True)
