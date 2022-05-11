@@ -31,7 +31,7 @@ metadata:
   name: meta-dados-rio
   namespace: meta-dados-rio
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 50%
