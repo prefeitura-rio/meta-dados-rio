@@ -14,7 +14,9 @@ RUN /env/bin/pip install --no-cache-dir . && \
 RUN apt-get update && apt-get install -y --no-install-recommends nginx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && rm /etc/nginx/sites-enabled/default
+    && rm /etc/nginx/sites-enabled/default \
+    && mkdir -p /var/log/django \
+    && touch /var/log/django/meta_dados_rio.log
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy app, generate static and set permissions
