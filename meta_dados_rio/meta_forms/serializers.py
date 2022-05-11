@@ -11,7 +11,9 @@ from meta_dados_rio.meta_forms.models import (
 
 
 class ColumnSerializer(serializers.HyperlinkedModelSerializer):
-    table = serializers.HyperlinkedRelatedField(view_name="table-detail")
+    table = serializers.HyperlinkedRelatedField(
+        view_name="table-detail", queryset=Table.objects.all()
+    )
 
     class Meta:
         model = Column
@@ -19,7 +21,9 @@ class ColumnSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class TableSerializer(serializers.HyperlinkedModelSerializer):
-    dataset = serializers.HyperlinkedRelatedField(view_name="dataset-detail")
+    dataset = serializers.HyperlinkedRelatedField(
+        view_name="dataset-detail", queryset=Dataset.objects.all()
+    )
     tags = serializers.SlugRelatedField(
         many=True, slug_field="name", queryset=Tag.objects.all()
     )
@@ -45,7 +49,9 @@ class TableSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DatasetSerializer(serializers.HyperlinkedModelSerializer):
-    project = serializers.HyperlinkedRelatedField(view_name="project-detail")
+    project = serializers.HyperlinkedRelatedField(
+        view_name="project-detail", queryset=Project.objects.all()
+    )
     tables = TableSerializer(many=True, read_only=True)
 
     class Meta:
