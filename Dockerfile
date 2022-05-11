@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends nginx \
     && rm -rf /var/lib/apt/lists/* \
     && rm /etc/nginx/sites-enabled/default \
     && mkdir -p /var/log/django \
-    && touch /var/log/django/meta_dados_rio.log
+    && touch /var/log/django/meta_dados_rio.log \
+    && chown www-data:www-data /var/log/django/meta_dados_rio.log
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy app, generate static and set permissions
