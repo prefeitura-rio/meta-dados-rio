@@ -3,6 +3,7 @@ from django import forms
 from django.contrib import admin
 
 from meta_dados_rio.meta_forms.models import (
+    Category,
     Column,
     Dataset,
     Project,
@@ -43,7 +44,7 @@ class DatasetInlineAdmin(admin.TabularInline):
 
 class TableInlineAdmin(admin.StackedInline):
     model = Table
-    filter_horizontal = ["tags"]
+    filter_horizontal = ["tags", "categories"]
 
 
 class TableForm(forms.ModelForm):
@@ -55,6 +56,10 @@ class TableForm(forms.ModelForm):
         ("Anual", "Anual"),
     ]
     update_frequency = forms.ChoiceField(choices=AVAILABLE_UPDATE_FREQUENCIES)
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    pass
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -81,7 +86,6 @@ class DatasetAdmin(admin.ModelAdmin):
 
 
 class TableAdmin(admin.ModelAdmin):
-    readonly_fields = ["tags"]
     inlines = [ColumnInlineAdmin]
     list_display = [
         "__str__",
@@ -111,3 +115,4 @@ admin.site.register(Dataset, DatasetAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Table, TableAdmin)
 admin.site.register(Tag, TagAdmin)
+admin.site.register(Category, CategoryAdmin)

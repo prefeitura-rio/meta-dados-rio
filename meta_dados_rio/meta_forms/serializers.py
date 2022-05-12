@@ -2,6 +2,7 @@
 from rest_framework import serializers
 
 from meta_dados_rio.meta_forms.models import (
+    Category,
     Column,
     Dataset,
     Project,
@@ -27,6 +28,9 @@ class TableSerializer(serializers.HyperlinkedModelSerializer):
     tags = serializers.SlugRelatedField(
         many=True, slug_field="name", queryset=Tag.objects.all()
     )
+    categories = serializers.SlugRelatedField(
+        many=True, slug_field="path", queryset=Category.objects.all()
+    )
     columns = ColumnSerializer(many=True, read_only=True)
 
     class Meta:
@@ -43,6 +47,7 @@ class TableSerializer(serializers.HyperlinkedModelSerializer):
             "publisher_name",
             "publisher_email",
             "tags",
+            "categories",
             "dataset",
             "columns",
         ]
@@ -73,3 +78,11 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Tag
         fields = ["url", "name", "tables"]
+
+
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    tables = TableSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Category
+        fields = ["url", "name", "path", "tables"]

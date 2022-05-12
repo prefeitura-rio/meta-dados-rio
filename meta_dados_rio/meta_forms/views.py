@@ -7,6 +7,7 @@ from rest_framework import viewsets
 from rest_framework import permissions
 
 from meta_dados_rio.meta_forms.models import (
+    Category,
     Column,
     Dataset,
     Project,
@@ -14,6 +15,7 @@ from meta_dados_rio.meta_forms.models import (
     Tag,
 )
 from meta_dados_rio.meta_forms.serializers import (
+    CategorySerializer,
     ColumnSerializer,
     DatasetSerializer,
     ProjectSerializer,
@@ -24,6 +26,25 @@ from meta_dados_rio.meta_forms.serializers import (
 
 def home_view(request):
     return HttpResponseRedirect("/api/")
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        queryset = Category.objects.prefetch_related(
+            Prefetch(
+                "tables",
+                Table.objects.prefetch_related(
+                    Prefetch("columns", Column.objects.filter(name__isnull=False))
+                ),
+            )
+        ).order_by("name")
+        name = self.request.query_params.get("name", None)
+        if name is not None:
+            queryset = queryset.filter(name__icontains=name)
+        return queryset
 
 
 class TagViewSet(viewsets.ModelViewSet):
