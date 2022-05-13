@@ -11,6 +11,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import base64
+import json
+from os import getenv
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -55,6 +58,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "meta_dados_rio.meta_forms.middleware.elasticsearch_logging.RequestLogMiddleware",
 ]
 
 ROOT_URLCONF = "meta_dados_rio.urls"
@@ -166,3 +170,12 @@ LOGGING = {
         },
     },
 }
+
+# Elasticsearch
+ELASTICSEARCH_CONFIG = (
+    json.loads(base64.b64decode(getenv("ELASTICSEARCH_CONFIG").encode()).decode())
+    if getenv("ELASTICSEARCH_CONFIG")
+    else {
+        "hosts": ["http://localhost:9200"],
+    }
+)
