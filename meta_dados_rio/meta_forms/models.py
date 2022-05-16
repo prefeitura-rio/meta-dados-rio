@@ -75,8 +75,8 @@ class Table(models.Model):
     source_database = models.CharField(max_length=100)
     source_table = models.CharField(max_length=100)
     source_query = models.TextField()
-    tags = models.ManyToManyField(Tag, related_name="tables")
-    categories = models.ManyToManyField(Category, related_name="tables")
+    tags = models.ManyToManyField(Tag, related_name="tables", blank=True)
+    categories = models.ManyToManyField(Category, related_name="tables", blank=True)
     dataset = models.ForeignKey(
         Dataset, on_delete=models.CASCADE, related_name="tables"
     )
