@@ -43,7 +43,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         ).order_by("name")
         name = self.request.query_params.get("name", None)
         if name is not None:
-            queryset = queryset.filter(name__icontains=name)
+            queryset = queryset.filter(name=name)
         return queryset
 
 
@@ -62,7 +62,7 @@ class TagViewSet(viewsets.ModelViewSet):
         ).order_by("name")
         name = self.request.query_params.get("name", None)
         if name is not None:
-            queryset = queryset.filter(name__icontains=name)
+            queryset = queryset.filter(name=name)
         return queryset
 
 
@@ -88,7 +88,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         ).order_by("name")
         name = self.request.query_params.get("name", None)
         if name is not None:
-            queryset = queryset.filter(name__icontains=name)
+            queryset = queryset.filter(name=name)
         return queryset
 
 
@@ -110,7 +110,7 @@ class DatasetViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(project__name=project_name)
         name = self.request.query_params.get("name", None)
         if name is not None:
-            queryset = queryset.filter(name__icontains=name)
+            queryset = queryset.filter(name=name)
         return queryset
 
 
@@ -130,7 +130,7 @@ class TableViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(dataset__name=dataset_name)
         name = self.request.query_params.get("name", None)
         if name is not None:
-            queryset = queryset.filter(name__icontains=name)
+            queryset = queryset.filter(name=name)
         return queryset
 
 
@@ -152,5 +152,5 @@ class ColumnViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(table__name=table_name)
         name = self.request.query_params.get("name", None)
         if name is not None:
-            queryset = queryset.filter(name__icontains=name)
+            queryset = queryset.filter(name=name)
         return queryset
