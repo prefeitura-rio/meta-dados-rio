@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.forms import ValidationError
 
 
 class Category(models.Model):
@@ -46,6 +47,15 @@ class Dataset(models.Model):
     def __repr__(self):
         return self.__str__()
 
+    def clean(self) -> None:
+        # Check if there's a dataset with same name under the same project
+        if self.pk is None:
+            if Dataset.objects.filter(name=self.name, project=self.project).exists():
+                raise ValidationError(
+                    f'Já existe um dataset com nome "{self.name}" no projeto "{self.project}"'
+                )
+        return super().clean()
+
     def save(
         self,
         force_insert=False,
@@ -56,8 +66,8 @@ class Dataset(models.Model):
         # Check if there's a dataset with same name under the same project
         if self.pk is None:
             if Dataset.objects.filter(name=self.name, project=self.project).exists():
-                raise ValueError(
-                    f"There's already a dataset with name {self.name} under project {self.project}"
+                raise ValidationError(
+                    f'Já existe um dataset com nome "{self.name}" no projeto "{self.project}"'
                 )
         return super().save(force_insert, force_update, using, update_fields)
 
@@ -87,6 +97,15 @@ class Table(models.Model):
     def __repr__(self):
         return self.__str__()
 
+    def clean(self) -> None:
+        # Check if there's a table with same name under the same dataset
+        if self.pk is None:
+            if Table.objects.filter(name=self.name, dataset=self.dataset).exists():
+                raise ValidationError(
+                    f'Já existe uma tabela com nome "{self.name}" no dataset "{self.dataset}"'
+                )
+        return super().clean()
+
     def save(
         self,
         force_insert=False,
@@ -97,8 +116,8 @@ class Table(models.Model):
         # Check if there's a table with same name under the same dataset
         if self.pk is None:
             if Table.objects.filter(name=self.name, dataset=self.dataset).exists():
-                raise ValueError(
-                    f"There's already a table with name {self.name} under dataset {self.dataset}"
+                raise ValidationError(
+                    f'Já existe uma tabela com nome "{self.name}" no dataset "{self.dataset}"'
                 )
         return super().save(force_insert, force_update, using, update_fields)
 
@@ -121,6 +140,15 @@ class Column(models.Model):
     def __repr__(self):
         return self.__str__()
 
+    def clean(self) -> None:
+        # Check if there's a column with same name under the same table
+        if self.pk is None:
+            if Column.objects.filter(name=self.name, table=self.table).exists():
+                raise ValidationError(
+                    f'Já existe uma coluna com nome "{self.name}" na tabela "{self.table}"'
+                )
+        return super().clean()
+
     def save(
         self,
         force_insert=False,
@@ -131,7 +159,7 @@ class Column(models.Model):
         # Check if there's a column with same name under the same table
         if self.pk is None:
             if Column.objects.filter(name=self.name, table=self.table).exists():
-                raise ValueError(
-                    f"There's already a column with name {self.name} under table {self.table}"
+                raise ValidationError(
+                    f'Já existe uma coluna com nome "{self.name}" na tabela "{self.table}"'
                 )
         return super().save(force_insert, force_update, using, update_fields)
