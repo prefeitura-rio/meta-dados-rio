@@ -142,7 +142,7 @@ class Column(models.Model):
 
     def clean(self) -> None:
         # Check if there's a column with same name under the same table
-        if self.pk is None:
+        if self.pk is None and self.name is not None:
             if Column.objects.filter(name=self.name, table=self.table).exists():
                 raise ValidationError(
                     f'Já existe uma coluna com nome "{self.name}" na tabela "{self.table}"'
@@ -157,7 +157,7 @@ class Column(models.Model):
         update_fields=None,
     ) -> None:
         # Check if there's a column with same name under the same table
-        if self.pk is None:
+        if self.pk is None and self.name is not None:
             if Column.objects.filter(name=self.name, table=self.table).exists():
                 raise ValidationError(
                     f'Já existe uma coluna com nome "{self.name}" na tabela "{self.table}"'
