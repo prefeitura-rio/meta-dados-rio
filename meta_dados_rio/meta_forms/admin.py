@@ -59,11 +59,11 @@ class TableForm(forms.ModelForm):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    save_as = True
 
 
 class TagAdmin(admin.ModelAdmin):
-    pass
+    save_as = True
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -71,6 +71,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display = ["name"]
     ordering = ["name"]
     search_fields = ["name"]
+    save_as = True
 
 
 class DatasetAdmin(admin.ModelAdmin):
@@ -83,6 +84,7 @@ class DatasetAdmin(admin.ModelAdmin):
     ]
     ordering = ["name"]
     search_fields = ["name", "project__name"]
+    save_as = True
 
 
 class TableAdmin(admin.ModelAdmin):
@@ -104,10 +106,12 @@ class TableAdmin(admin.ModelAdmin):
         "publisher_email",
     ]
     form = TableForm
+    save_as = True
 
 
 class ColumnAdmin(admin.ModelAdmin):
     form = ColumnForm
+    save_as = True
 
 
 admin.site.register(Column, ColumnAdmin)
