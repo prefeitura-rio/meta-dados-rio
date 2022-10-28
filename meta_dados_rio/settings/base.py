@@ -179,3 +179,7 @@ ELASTICSEARCH_CONFIG = (
         "hosts": ["http://localhost:9200"],
     }
 )
+
+# Data upload settings
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024 # 50 MB
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
