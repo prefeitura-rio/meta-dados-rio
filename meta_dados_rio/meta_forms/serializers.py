@@ -18,7 +18,7 @@ class ColumnSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Column
-        fields = ["url", "name", "original_name", "description", "table"]
+        fields = ["url", "name", "original_name", "description", "type", "table"]
 
 
 class TableSerializer(serializers.HyperlinkedModelSerializer):
