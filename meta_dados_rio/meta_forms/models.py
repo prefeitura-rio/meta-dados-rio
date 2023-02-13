@@ -56,21 +56,6 @@ class Dataset(models.Model):
                 )
         return super().clean()
 
-    def save(
-        self,
-        force_insert=False,
-        force_update=False,
-        using=None,
-        update_fields=None,
-    ) -> None:
-        # Check if there's a dataset with same name under the same project
-        if self.pk is None:
-            if Dataset.objects.filter(name=self.name, project=self.project).exists():
-                raise ValidationError(
-                    f'Já existe um dataset com nome "{self.name}" no projeto "{self.project}"'
-                )
-        return super().save(force_insert, force_update, using, update_fields)
-
 
 class Table(models.Model):
     name = models.CharField(max_length=100)
@@ -106,21 +91,6 @@ class Table(models.Model):
                 )
         return super().clean()
 
-    def save(
-        self,
-        force_insert=False,
-        force_update=False,
-        using=None,
-        update_fields=None,
-    ) -> None:
-        # Check if there's a table with same name under the same dataset
-        if self.pk is None:
-            if Table.objects.filter(name=self.name, dataset=self.dataset).exists():
-                raise ValidationError(
-                    f'Já existe uma tabela com nome "{self.name}" no dataset "{self.dataset}"'
-                )
-        return super().save(force_insert, force_update, using, update_fields)
-
 
 class Column(models.Model):
     original_name = models.CharField(max_length=100)
@@ -149,17 +119,3 @@ class Column(models.Model):
                 )
         return super().clean()
 
-    def save(
-        self,
-        force_insert=False,
-        force_update=False,
-        using=None,
-        update_fields=None,
-    ) -> None:
-        # Check if there's a column with same name under the same table
-        if self.pk is None and self.name is not None:
-            if Column.objects.filter(name=self.name, table=self.table).exists():
-                raise ValidationError(
-                    f'Já existe uma coluna com nome "{self.name}" na tabela "{self.table}"'
-                )
-        return super().save(force_insert, force_update, using, update_fields)
