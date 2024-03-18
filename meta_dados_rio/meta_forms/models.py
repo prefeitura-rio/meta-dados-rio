@@ -118,4 +118,3 @@ class Column(models.Model):
                     f'Já existe uma coluna com nome "{self.name}" na tabela "{self.table}"'
                 )
         return super().clean()
-
