@@ -127,6 +127,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # https://www.django-rest-framework.org/
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
@@ -181,5 +182,5 @@ ELASTICSEARCH_CONFIG = (
 )
 
 # Data upload settings
-DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024 # 50 MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50 MB
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
