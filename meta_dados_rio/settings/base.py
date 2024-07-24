@@ -58,7 +58,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "meta_dados_rio.meta_forms.middleware.elasticsearch_logging.RequestLogMiddleware",
 ]
 
 ROOT_URLCONF = "meta_dados_rio.urls"
@@ -172,14 +171,6 @@ LOGGING = {
     },
 }
 
-# Elasticsearch
-ELASTICSEARCH_CONFIG = (
-    json.loads(base64.b64decode(getenv("ELASTICSEARCH_CONFIG").encode()).decode())
-    if getenv("ELASTICSEARCH_CONFIG")
-    else {
-        "hosts": ["http://localhost:9200"],
-    }
-)
 
 # Data upload settings
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50 MB
